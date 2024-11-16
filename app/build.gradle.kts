@@ -43,6 +43,7 @@ android {
 dependencies {
 
     implementation(libs.android.compose.navigation)
+    implementation(libs.jetbrains.serialization)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
