@@ -1,6 +1,6 @@
 package com.softyorch.navigationcompose.ui.screens
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -15,19 +15,21 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier, navigateToDetail: (String) -> Unit) {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+    Column(modifier = modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+        Spacer(modifier = modifier.weight(1f))
         Text(text = "HOME SCREEN", fontWeight = FontWeight.ExtraBold, fontSize = 20.sp)
-        Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = { navigateToDetail("0") }) {
+        Spacer(modifier = modifier.weight(1f))
+        Button(onClick = { navigateToDetail("1") }) {
             Text(text = "Go To Detail 1")
         }
-        Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = { navigateToDetail("1") }) {
+        Spacer(modifier = modifier.height(16.dp))
+        Button(onClick = { navigateToDetail("2") }) {
             Text(text = "Go To Detail 2")
         }
-        Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = { navigateToDetail("2") }) {
+        Spacer(modifier = modifier.height(16.dp))
+        Button(onClick = { navigateToDetail("3") }) {
             Text(text = "Go To Detail 3")
         }
+        Spacer(modifier = modifier.weight(1f))
     }
 }
