@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navDeepLink
 import androidx.navigation.toRoute
 import com.softyorch.navigationcompose.ui.core.navigation.type.genericNavType
 import com.softyorch.navigationcompose.ui.model.UserDetailValues
@@ -26,7 +27,9 @@ fun NavigationWrapper(navController: NavHostController = rememberNavController()
                 }
             }
         }
-        composable<Home> {
+        composable<Home>(
+            deepLinks = listOf(navDeepLink { uriPattern = URI_HOME })
+        ) {
             HomeScreen(
                 navigateToUserDetail = { values -> navController.navigate(UserDetail(values)) },
                 navigateToDetail = { id -> navController.navigate(Detail(id = id)) }
@@ -49,3 +52,6 @@ fun NavigationWrapper(navController: NavHostController = rememberNavController()
         }
     }
 }
+
+const val URI_BASE = "https://softyorch.com"
+const val URI_HOME = "$URI_BASE/home"
