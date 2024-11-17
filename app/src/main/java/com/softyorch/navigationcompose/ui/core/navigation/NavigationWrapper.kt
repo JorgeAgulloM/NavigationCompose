@@ -1,6 +1,7 @@
 package com.softyorch.navigationcompose.ui.core.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -20,13 +21,10 @@ fun NavigationWrapper(navController: NavHostController = rememberNavController()
     NavHost(navController = navController, startDestination = Login) {
         composable<Login> {
             LoginScreen {
-                navController.navigate(Home) {
-                    popUpTo<Login> {
-                        inclusive = true
-                    }
-                }
+                navController.navigate(Home) { popUpTo(0) { inclusive = true } }
             }
         }
+
         composable<Home>(
             deepLinks = listOf(navDeepLink { uriPattern = URI_HOME })
         ) {
@@ -35,28 +33,38 @@ fun NavigationWrapper(navController: NavHostController = rememberNavController()
                 navigateToDetail = { id -> navController.navigate(Detail(id = id)) }
             )
         }
-        composable<Detail> (
-            deepLinks = listOf(navDeepLink { uriPattern = URI_DETAIL })
-        ){ backStackEntry ->
-            //val detail = backStackEntry.toRoute<Detail>()
-            //val id = detail.id
 
-            val id = backStackEntry.arguments?.getString(ID).orEmpty()
-            DetailScreen(id = id) {
-                navController.navigate(Home) {
-                    popUpTo<Detail> { inclusive = true }
+        composable<Detail>(
+            deepLinks = listOf(navDeepLink { uriPattern = URI_DETAIL })
+        ) { backStackEntry ->
+            val id = getIdFromNavigationOrDeepLink(backStackEntry)
+            DetailScreen(
+                id = id,
+                navigateToUp = {
+                    navController.navigate(Home) { popUpTo<Home> { inclusive = true } }
                 }
-            }
+            )
         }
+
         composable<UserDetail>(
             typeMap = mapOf(typeOf<UserDetailValues>() to genericNavType<UserDetailValues>())
         ) { backStackEntry ->
             val userDetail: UserDetail = backStackEntry.toRoute()
-            UserDetailsScreen(userDetailValues = userDetail.values) {
-                navController.navigateUp()
-            }
+            UserDetailsScreen(
+                userDetailValues = userDetail.values,
+                navigateToUp = { navController.popBackStack() }
+            )
         }
     }
+}
+
+@Composable
+private fun getIdFromNavigationOrDeepLink(
+    backStackEntry: NavBackStackEntry
+): String = if (backStackEntry.arguments != null) {
+    backStackEntry.arguments?.getString(ID).orEmpty()
+} else {
+    backStackEntry.toRoute<Detail>().id
 }
 
 const val ID = "id"

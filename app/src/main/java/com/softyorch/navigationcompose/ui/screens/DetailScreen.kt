@@ -1,5 +1,6 @@
 package com.softyorch.navigationcompose.ui.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +14,8 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun DetailScreen(modifier: Modifier = Modifier, id: String, navigateToUp: () -> Unit) {
+    BackHandler { navigateToUp() }
+
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         Spacer(modifier = modifier.weight(1f))
         Text(text = "DETAIL SCREEN $id", fontWeight = FontWeight.ExtraBold, fontSize = 20.sp)
