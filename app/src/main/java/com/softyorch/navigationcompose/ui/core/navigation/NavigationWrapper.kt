@@ -6,9 +6,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.softyorch.navigationcompose.ui.core.navigation.type.genericNavType
+import com.softyorch.navigationcompose.ui.model.UserDetailValues
 import com.softyorch.navigationcompose.ui.screens.DetailScreen
 import com.softyorch.navigationcompose.ui.screens.HomeScreen
 import com.softyorch.navigationcompose.ui.screens.LoginScreen
+import com.softyorch.navigationcompose.ui.screens.UserDetailsScreen
+import kotlin.reflect.typeOf
 
 @Composable
 fun NavigationWrapper(navController: NavHostController = rememberNavController()) {
@@ -23,12 +27,23 @@ fun NavigationWrapper(navController: NavHostController = rememberNavController()
             }
         }
         composable<Home> {
-            HomeScreen { id -> navController.navigate(Detail(id = id)) }
+            HomeScreen(
+                navigateToUserDetail = { values -> navController.navigate(UserDetail(values)) },
+                navigateToDetail = { id -> navController.navigate(Detail(id = id)) }
+            )
         }
         composable<Detail> { backStackEntry ->
             val detail = backStackEntry.toRoute<Detail>()
             val id = detail.id
             DetailScreen(id = id) {
+                navController.navigateUp()
+            }
+        }
+        composable<UserDetail>(
+            typeMap = mapOf(typeOf<UserDetailValues>() to genericNavType<UserDetailValues>())
+        ) { backStackEntry ->
+            val userDetail: UserDetail = backStackEntry.toRoute()
+            UserDetailsScreen(userDetailValues = userDetail.values) {
                 navController.navigateUp()
             }
         }

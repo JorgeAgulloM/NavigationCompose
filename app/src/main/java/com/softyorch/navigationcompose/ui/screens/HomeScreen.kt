@@ -12,9 +12,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.softyorch.navigationcompose.ui.model.UserDetailValues
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier, navigateToDetail: (String) -> Unit) {
+fun HomeScreen(
+    modifier: Modifier = Modifier,
+    navigateToUserDetail: (UserDetailValues) -> Unit,
+    navigateToDetail: (String) -> Unit
+) {
     Column(modifier = modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         Spacer(modifier = modifier.weight(1f))
         Text(text = "HOME SCREEN", fontWeight = FontWeight.ExtraBold, fontSize = 20.sp)
@@ -27,8 +32,10 @@ fun HomeScreen(modifier: Modifier = Modifier, navigateToDetail: (String) -> Unit
             Text(text = "Go To Detail 2")
         }
         Spacer(modifier = modifier.height(16.dp))
-        Button(onClick = { navigateToDetail("3") }) {
-            Text(text = "Go To Detail 3")
+        Button(onClick = {
+            navigateToUserDetail(UserDetailValues(name = "Yorch", age = 42, email = "yorch@gmail.com"))
+        }) {
+            Text(text = "Go To User Details")
         }
         Spacer(modifier = modifier.weight(1f))
     }
