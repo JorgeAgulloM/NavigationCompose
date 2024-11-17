@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.sp
 fun DetailScreen(modifier: Modifier = Modifier, id: String, navigateToUp: () -> Unit) {
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         Spacer(modifier = modifier.weight(1f))
-        Text(text = "LOGIN SCREEN $id", fontWeight = FontWeight.ExtraBold, fontSize = 20.sp)
+        Text(text = "DETAIL SCREEN $id", fontWeight = FontWeight.ExtraBold, fontSize = 20.sp)
         Spacer(modifier = modifier.weight(1f))
         Button(onClick = { navigateToUp() }) {
             Text(text = "Go To Back")

@@ -35,9 +35,13 @@ fun NavigationWrapper(navController: NavHostController = rememberNavController()
                 navigateToDetail = { id -> navController.navigate(Detail(id = id)) }
             )
         }
-        composable<Detail> { backStackEntry ->
-            val detail = backStackEntry.toRoute<Detail>()
-            val id = detail.id
+        composable<Detail> (
+            deepLinks = listOf(navDeepLink { uriPattern = URI_DETAIL })
+        ){ backStackEntry ->
+            //val detail = backStackEntry.toRoute<Detail>()
+            //val id = detail.id
+
+            val id = backStackEntry.arguments?.getString(ID).orEmpty()
             DetailScreen(id = id) {
                 navController.navigateUp()
             }
@@ -53,5 +57,7 @@ fun NavigationWrapper(navController: NavHostController = rememberNavController()
     }
 }
 
+const val ID = "id"
 const val URI_BASE = "https://softyorch.com"
 const val URI_HOME = "$URI_BASE/home"
+const val URI_DETAIL = "$URI_BASE/detail/{$ID}"
