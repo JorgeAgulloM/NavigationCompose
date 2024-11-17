@@ -43,7 +43,9 @@ fun NavigationWrapper(navController: NavHostController = rememberNavController()
 
             val id = backStackEntry.arguments?.getString(ID).orEmpty()
             DetailScreen(id = id) {
-                navController.navigateUp()
+                navController.navigate(Home) {
+                    popUpTo<Detail> { inclusive = true }
+                }
             }
         }
         composable<UserDetail>(
